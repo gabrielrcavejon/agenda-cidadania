@@ -1,9 +1,11 @@
+import { Cidade } from 'src/cidade/entities/cidade.entity';
 import { Pais } from 'src/pais/entities/pais.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -20,6 +22,9 @@ export class Estado {
 
   @Column({ name: 'abreviacao', length: 2 })
   abreviacao: string;
+
+  @OneToMany(() => Cidade, (cidade) => cidade.estado)
+  cidade: Cidade[];
 
   @ManyToOne(() => Pais, (pais) => pais.estado)
   @JoinColumn({ name: 'idpais' })
