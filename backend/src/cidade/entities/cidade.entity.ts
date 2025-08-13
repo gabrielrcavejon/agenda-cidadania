@@ -1,9 +1,11 @@
+import { Endereco } from 'src/endereco/entities/endereco.entity';
 import { Estado } from 'src/estado/entities/estado.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -20,6 +22,9 @@ export class Cidade {
 
   @Column({ name: 'idibge' })
   idIbge: number;
+
+  @OneToMany(() => Endereco, (endereco) => endereco.cidade)
+  endereco: Endereco[];
 
   @ManyToOne(() => Estado, (estado) => estado.cidade)
   @JoinColumn({ name: 'idestado' })
