@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Estado } from 'src/estado/entities/estado.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'pais' })
 export class Pais {
@@ -10,4 +11,7 @@ export class Pais {
 
   @Column({ name: 'abreviacao', length: 2 })
   abreviacao: string;
+
+  @OneToMany(() => Estado, (estado) => estado.pais)
+  estado: Estado[];
 }
