@@ -1,9 +1,11 @@
 import { Cidade } from 'src/cidade/entities/cidade.entity';
+import { Empresa } from 'src/empresa/entities/empresa.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -30,4 +32,7 @@ export class Endereco {
   @ManyToOne(() => Cidade, (cidade) => cidade.endereco)
   @JoinColumn({ name: 'idcidade' })
   cidade: Cidade;
+
+  @OneToMany(() => Empresa, (empresa) => empresa.endereco)
+  empresa: Empresa[];
 }

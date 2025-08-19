@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Empresa } from 'src/empresa/entities/empresa.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum Tipo {
   ADMINISTRADOR = 'A',
@@ -36,4 +37,7 @@ export class Usuario {
 
   @Column({ name: 'foto', nullable: true })
   foto: string;
+
+  @OneToMany(() => Empresa, (empresa) => empresa.endereco)
+  empresa: Empresa[];
 }
