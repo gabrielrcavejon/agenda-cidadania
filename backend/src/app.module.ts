@@ -7,6 +7,7 @@ import { CidadeModule } from './cidade/cidade.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from './auth/auth.module';
     EstadoModule,
     CidadeModule,
     AuthModule,
+    UsuarioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
