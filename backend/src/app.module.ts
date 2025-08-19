@@ -6,6 +6,7 @@ import { EstadoModule } from './estado/estado.module';
 import { CidadeModule } from './cidade/cidade.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
     PaisModule,
     EstadoModule,
     CidadeModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
