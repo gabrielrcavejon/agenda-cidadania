@@ -1,5 +1,13 @@
 import { Empresa } from 'src/empresa/entities/empresa.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Evento } from 'src/evento/entities/evento.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export enum Tipo {
   ADMINISTRADOR = 'A',
@@ -38,6 +46,10 @@ export class Usuario {
   @Column({ name: 'foto', nullable: true })
   foto: string;
 
-  @OneToMany(() => Empresa, (empresa) => empresa.endereco)
-  empresa: Empresa[];
+  @ManyToOne(() => Empresa, (empresa) => empresa.usuario)
+  @JoinColumn({ name: 'idempresa' })
+  empresa: Empresa;
+
+  @OneToMany(() => Evento, (evento) => evento.empresa)
+  evento: Evento[];
 }

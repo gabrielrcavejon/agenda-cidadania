@@ -11,6 +11,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { EmpresaModule } from './empresa/empresa.module';
+import { EventoModule } from './evento/evento.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { EmpresaModule } from './empresa/empresa.module';
     AuthModule,
     UsuarioModule,
     EmpresaModule,
+    EventoModule,
   ],
   controllers: [AppController],
   providers: [

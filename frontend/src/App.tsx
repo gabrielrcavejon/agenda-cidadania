@@ -1,35 +1,101 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./pages/Dashboard";
 import "./App.css";
+import CadastrarEvento from "./pages/CadastrarEvento";
+import Eventos from "./pages/Eventos";
+import EventoDetalhes from "./pages/EventoDetalhes";
+import { useAuth } from "./context/AuthContext";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
 
-function App() {
-	const [count, setCount] = useState(0);
+interface ProtectedRoutesProp {
+	isLoad: boolean;
+}
+
+const ProtectedRoutes = ({ isLoad }: ProtectedRoutesProp) => {
+	if (isLoad) {
+		return <></>;
+	} else {
+		return (
+			<>
+				<Sidebar />
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<PrivateRoute>
+								<Dashboard />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/cadastro"
+						element={
+							<PrivateRoute>
+								<CadastrarEvento />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="*"
+						element={
+							<PrivateRoute>
+								<></>
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/evento"
+						element={
+							<PrivateRoute>
+								<Eventos />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/evento/:id"
+						element={
+							<PrivateRoute>
+								<EventoDetalhes />
+							</PrivateRoute>
+						}
+					/>
+				</Routes>
+			</>
+		);
+	}
+};
+
+const App = () => {
+	const { loginStore } = useAuth();
+	const [isLoad, setIsLoad] = useState<boolean>(true);
+
+	useEffect(() => {
+		const loadApp = async () => {
+			try {
+				setIsLoad(true); // Start no carregamanto
+
+				await loginStore();
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setIsLoad(false); // Para o carregamanto
+			}
+		};
+
+		loadApp();
+	}, []);
 
 	return (
-		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">
-				Click on the Vite and React logos to learn more
-			</p>
-		</>
+		<BrowserRouter>
+			<Routes>
+				<Route path="/login" element={<Login />} />
+				<Route path="/*" element={<ProtectedRoutes isLoad={isLoad} />} />
+			</Routes>
+		</BrowserRouter>
 	);
-}
+};
 
 export default App;

@@ -1,5 +1,6 @@
 import { Cidade } from 'src/cidade/entities/cidade.entity';
 import { Empresa } from 'src/empresa/entities/empresa.entity';
+import { Evento } from 'src/evento/entities/evento.entity';
 import {
   Column,
   Entity,
@@ -35,4 +36,7 @@ export class Endereco {
 
   @OneToMany(() => Empresa, (empresa) => empresa.endereco)
   empresa: Empresa[];
+
+  @OneToMany(() => Evento, (evento) => evento.empresa)
+  evento: Evento[];
 }

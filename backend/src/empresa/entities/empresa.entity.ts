@@ -1,4 +1,5 @@
 import { Endereco } from 'src/endereco/entities/endereco.entity';
+import { Evento } from 'src/evento/entities/evento.entity';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 import {
   Column,
@@ -44,4 +45,7 @@ export class Empresa {
   })
   @JoinColumn({ name: 'idendereco' })
   endereco: Endereco;
+
+  @OneToMany(() => Evento, (evento) => evento.empresa)
+  evento: Evento[];
 }
