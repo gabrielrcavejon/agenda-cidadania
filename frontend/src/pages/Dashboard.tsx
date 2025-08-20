@@ -12,6 +12,8 @@ import {
 import { Bar, Line } from "react-chartjs-2";
 import React from "react";
 import NavbarSuperior from "../components/NavbarSuperior";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 ChartJS.register(
 	CategoryScale,
@@ -25,6 +27,9 @@ ChartJS.register(
 );
 
 const Dashboard: React.FC = () => {
+	const navigate = useNavigate();
+	const { usuario } = useAuth();
+
 	const commonChartOptions = {
 		responsive: true,
 		maintainAspectRatio: false,
@@ -176,102 +181,106 @@ const Dashboard: React.FC = () => {
 		},
 	};
 
-	return (
-		<div className="content-area">
-			<NavbarSuperior titulo="Dashboard" />
+	if (usuario?.empresa.tipo == undefined || usuario?.empresa.tipo != "A") {
+		navigate("/cadastro");
+	} else {
+		return (
+			<div className="content-area">
+				<NavbarSuperior titulo="Dashboard" />
 
-			<div className="row g-4 mb-5">
-				{[
-					{
-						title: "Total de Eventos",
-						value: 3,
-						percent: "+12%",
-						color: "primary",
-						icon: "bi-building",
-					},
-					{
-						title: "Total de Participantes",
-						value: 10,
-						percent: "+23%",
-						color: "success",
-						icon: "bi-people",
-					},
-					{
-						title: "Eventos Próximos",
-						value: 2,
-						percent: "+50%",
-						color: "warning",
-						icon: "bi-clock",
-					},
-					{
-						title: "Taxa de Crescimento",
-						value: "18%",
-						percent: "+8%",
-						color: "info",
-						icon: "bi-graph-up-arrow",
-					},
-				].map((card, index) => (
-					<div className="col-lg-3 col-md-6 col-sm-12" key={index}>
-						<div className="card h-100 border-0 shadow-sm rounded-lg p-3 hover-lift-shadow">
-							<div className="d-flex align-items-center mb-2">
-								<div
-									className={`icon-circle bg-${card.color}-light text-${card.color} me-3`}
-								>
-									<i className={`bi ${card.icon} fs-4`}></i>
-								</div>
-								<div>
-									<h6
-										className="text-muted text-uppercase mb-0"
-										style={{ fontSize: "0.8rem" }}
+				<div className="row g-4 mb-5">
+					{[
+						{
+							title: "Total de Eventos",
+							value: 3,
+							percent: "+12%",
+							color: "primary",
+							icon: "bi-building",
+						},
+						{
+							title: "Total de Participantes",
+							value: 10,
+							percent: "+23%",
+							color: "success",
+							icon: "bi-people",
+						},
+						{
+							title: "Eventos Próximos",
+							value: 2,
+							percent: "+50%",
+							color: "warning",
+							icon: "bi-clock",
+						},
+						{
+							title: "Taxa de Crescimento",
+							value: "18%",
+							percent: "+8%",
+							color: "info",
+							icon: "bi-graph-up-arrow",
+						},
+					].map((card, index) => (
+						<div className="col-lg-3 col-md-6 col-sm-12" key={index}>
+							<div className="card h-100 border-0 shadow-sm rounded-lg p-3 hover-lift-shadow">
+								<div className="d-flex align-items-center mb-2">
+									<div
+										className={`icon-circle bg-${card.color}-light text-${card.color} me-3`}
 									>
-										{card.title}
-									</h6>
-									<h3 className="fw-bold mb-0 text-dark">{card.value}</h3>
+										<i className={`bi ${card.icon} fs-4`}></i>
+									</div>
+									<div>
+										<h6
+											className="text-muted text-uppercase mb-0"
+											style={{ fontSize: "0.8rem" }}
+										>
+											{card.title}
+										</h6>
+										<h3 className="fw-bold mb-0 text-dark">{card.value}</h3>
+									</div>
 								</div>
+								<p className="text-muted mb-0" style={{ fontSize: "0.9rem" }}>
+									<span className={`fw-bold text-${card.color}`}>
+										{card.percent}
+									</span>
+									<span className="ms-1">em relação ao mês passado</span>
+								</p>
 							</div>
-							<p className="text-muted mb-0" style={{ fontSize: "0.9rem" }}>
-								<span className={`fw-bold text-${card.color}`}>
-									{card.percent}
-								</span>
-								<span className="ms-1">em relação ao mês passado</span>
-							</p>
 						</div>
-					</div>
-				))}
-			</div>
+					))}
+				</div>
 
-			<div className="row g-4">
-				<div className="col-lg-6">
-					<div className="card shadow-lg border-0 h-100 hover-lift-shadow">
-						<div className="card-header bg-white border-0 py-3 pb-0">
-							<h5 className="mb-0 fw-semibold text-dark">Eventos por Mês</h5>
-						</div>
-						<div
-							className="card-body d-flex justify-content-center align-items-center"
-							style={{ height: "350px" }}
-						>
-							<Bar data={barData} options={barOptions} />
+				<div className="row g-4">
+					<div className="col-lg-6">
+						<div className="card shadow-lg border-0 h-100 hover-lift-shadow">
+							<div className="card-header bg-white border-0 py-3 pb-0">
+								<h5 className="mb-0 fw-semibold text-dark">Eventos por Mês</h5>
+							</div>
+							<div
+								className="card-body d-flex justify-content-center align-items-center"
+								style={{ height: "350px" }}
+							>
+								<Bar data={barData} options={barOptions} />
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className="col-lg-6">
-					<div className="card shadow-lg border-0 h-100 hover-lift-shadow">
-						<div className="card-header bg-white border-0 py-3 pb-0">
-							<h5 className="mb-0 fw-semibold text-dark">
-								Engajamento Semanal
-							</h5>
-						</div>
-						<div
-							className="card-body d-flex justify-content-center align-items-center"
-							style={{ height: "350px" }}
-						>
-							<Line data={lineDataTrends} options={lineOptionsTrends} />
+					<div className="col-lg-6">
+						<div className="card shadow-lg border-0 h-100 hover-lift-shadow">
+							<div className="card-header bg-white border-0 py-3 pb-0">
+								<h5 className="mb-0 fw-semibold text-dark">
+									Engajamento Semanal
+								</h5>
+							</div>
+							<div
+								className="card-body d-flex justify-content-center align-items-center"
+								style={{ height: "350px" }}
+							>
+								<Line data={lineDataTrends} options={lineOptionsTrends} />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
+	}
 };
 
 export default Dashboard;

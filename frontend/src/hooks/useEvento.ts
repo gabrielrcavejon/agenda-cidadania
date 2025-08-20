@@ -16,11 +16,6 @@ export interface Evento {
 	endereco: Endereco;
 }
 
-export enum TipoEnvio {
-	EMAIL = "email",
-	WHATSAPP = "whatsapp",
-}
-
 export const useEvento = () => {
 	const { criarResponse } = useResponse();
 	const { criarVazio: criarEmpresaVazio } = useEmpresa();
@@ -88,26 +83,7 @@ export const useEvento = () => {
 		}
 	};
 
-	const finalizarEvento = async (
-		idEvento: number,
-		tipoEnvio: TipoEnvio
-	): Promise<Response> => {
-		console.log(idEvento, tipoEnvio);
-		return await criarResponse(
-			await api.post<Evento>(
-				`/evento/finalizar/${idEvento}`,
-				{ tipoEnvio },
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			)
-		);
-	};
-
 	return {
-		finalizarEvento,
 		criarVazio,
 		getEventos,
 		getEvento,

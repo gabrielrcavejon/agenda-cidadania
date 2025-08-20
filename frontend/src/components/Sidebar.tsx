@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 // IMPORTANTE: CERTIFIQUE-SE DE QUE ESTES CAMINHOS ESTÃO CORRETOS
 // As imagens devem estar na pasta 'src/assets' do seu projeto
 
 const Sidebar: React.FC = () => {
 	const [collapsed, setCollapsed] = useState(true);
 	const location = useLocation();
+	const { usuario } = useAuth();
+
+	console.log(usuario?.empresa.tipo);
 
 	return (
 		<div
@@ -19,41 +23,46 @@ const Sidebar: React.FC = () => {
 
 			<hr className="text-white mt-0" />
 
-			<ul className="nav flex-column flex-grow-1">
-				<li className="nav-item">
-					<Link
-						to="/"
-						className={`nav-link sidebar-link-blue ${
-							location.pathname === "/" ? "active" : ""
-						}`}
-					>
-						<i className="bi bi-house-door-fill fs-5 sidebar-icon-solid"></i>
-						{!collapsed && "Home"}
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link
-						to="/cadastro"
-						className={`nav-link sidebar-link-blue ${
-							location.pathname === "/cadastro" ? "active" : ""
-						}`}
-					>
-						<i className="bi bi-plus-square-fill fs-5 sidebar-icon-solid"></i>
-						{!collapsed && "Cadastro de Evento"}
-					</Link>
-				</li>
-				<li className="nav-item">
-					<Link
-						to="/evento"
-						className={`nav-link sidebar-link-blue ${
-							location.pathname === "/evento" ? "active" : ""
-						}`}
-					>
-						<i className="bi bi-list-task fs-5 sidebar-icon-solid"></i>
-						{!collapsed && "Lista de Eventos"}
-					</Link>
-				</li>
-			</ul>
+			{usuario?.empresa.tipo == "A" ? (
+				<ul className="nav flex-column flex-grow-1">
+					<li className="nav-item">
+						<Link
+							to="/"
+							className={`nav-link sidebar-link-blue ${
+								location.pathname === "/" ? "active" : ""
+							}`}
+						>
+							<i className="bi bi-house-door-fill fs-5 sidebar-icon-solid"></i>
+							{!collapsed && "Home"}
+						</Link>
+					</li>
+					<li className="nav-item">
+						<Link
+							to="/evento"
+							className={`nav-link sidebar-link-blue ${
+								location.pathname === "/evento" ? "active" : ""
+							}`}
+						>
+							<i className="bi bi-list-task fs-5 sidebar-icon-solid"></i>
+							{!collapsed && "Lista de Eventos"}
+						</Link>
+					</li>
+				</ul>
+			) : (
+				<ul className="nav flex-column flex-grow-1">
+					<li className="nav-item">
+						<Link
+							to="/cadastro"
+							className={`nav-link sidebar-link-blue ${
+								location.pathname === "/cadastro" ? "active" : ""
+							}`}
+						>
+							<i className="bi bi-plus-square-fill fs-5 sidebar-icon-solid"></i>
+							{!collapsed && "Cadastro de Evento"}
+						</Link>
+					</li>
+				</ul>
+			)}
 		</div>
 	);
 };

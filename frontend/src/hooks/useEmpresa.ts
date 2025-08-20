@@ -5,6 +5,7 @@ export interface Empresa {
 	nome: string;
 	fantasia: string;
 	cnpj: string;
+	tipo: string;
 	endereco: Endereco;
 }
 
@@ -15,6 +16,7 @@ export const useEmpresa = () => {
 		idEmpresa: 0,
 		nome: "",
 		fantasia: "",
+		tipo: "",
 		cnpj: "",
 		endereco: criarEnderecoVazio(),
 	});

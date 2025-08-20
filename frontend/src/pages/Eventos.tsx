@@ -10,6 +10,7 @@ const Eventos = () => {
 	useEffect(() => {
 		(async () => {
 			const res = await getEventos();
+
 			setEventos(res.data as Evento[]);
 		})();
 	}, []);

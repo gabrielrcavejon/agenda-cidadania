@@ -10,7 +10,6 @@ export interface Usuario {
 	nome: string;
 	senha: string;
 	telefone: string;
-	tipo: string;
 	foto: string;
 	empresa: Empresa;
 }
@@ -34,7 +33,6 @@ export const useUsuario = () => {
 		idEmpresa: 0,
 		email: "",
 		nome: "",
-		tipo: "",
 		foto: "",
 		empresa: criarEmpresaVazio(),
 	});
