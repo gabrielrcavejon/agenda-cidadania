@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./pages/Dashboard";
 import "./App.css";
 import CadastrarEvento from "./pages/CadastrarEvento";
-import Eventos from "./pages/Eventos";
-import EventoDetalhes from "./pages/EventoDetalhes";
 import { useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
@@ -23,14 +20,6 @@ const ProtectedRoutes = ({ isLoad }: ProtectedRoutesProp) => {
 				<Sidebar />
 				<Routes>
 					<Route
-						path="/"
-						element={
-							<PrivateRoute>
-								<Dashboard />
-							</PrivateRoute>
-						}
-					/>
-					<Route
 						path="/cadastro"
 						element={
 							<PrivateRoute>
@@ -43,22 +32,6 @@ const ProtectedRoutes = ({ isLoad }: ProtectedRoutesProp) => {
 						element={
 							<PrivateRoute>
 								<></>
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path="/evento"
-						element={
-							<PrivateRoute>
-								<Eventos />
-							</PrivateRoute>
-						}
-					/>
-					<Route
-						path="/evento/:id"
-						element={
-							<PrivateRoute>
-								<EventoDetalhes />
 							</PrivateRoute>
 						}
 					/>

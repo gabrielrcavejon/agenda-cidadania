@@ -26,10 +26,12 @@ export class EventoService {
 
   async findAll(usuarioJWT: UsuarioJWT): Promise<Evento[]> {
     return this.eventoRepository.find({
-      where: {
-        idEmpresa: usuarioJWT.idEmpresa,
-      },
-      relations: ['endereco', 'endereco.cidade', 'endereco.cidade.estado'],
+      relations: [
+        'endereco',
+        'empresa',
+        'endereco.cidade',
+        'endereco.cidade.estado',
+      ],
     });
   }
 

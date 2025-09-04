@@ -1,11 +1,17 @@
 import { Endereco, useEndereco } from "./useEndereco";
 
+export enum TipoEmpresa {
+	ADMINISTRADOR = "A", // Pessoal do sistema
+	GERENCIADOR = "G", // Pessoal das prefeituras
+	ORGANIZADOR = "O", // Pessoal que quer publicar evento
+}
+
 export interface Empresa {
 	idEmpresa: number;
 	nome: string;
 	fantasia: string;
 	cnpj: string;
-	tipo: string;
+	tipo: TipoEmpresa;
 	endereco: Endereco;
 }
 
@@ -16,7 +22,7 @@ export const useEmpresa = () => {
 		idEmpresa: 0,
 		nome: "",
 		fantasia: "",
-		tipo: "",
+		tipo: TipoEmpresa.ORGANIZADOR,
 		cnpj: "",
 		endereco: criarEnderecoVazio(),
 	});

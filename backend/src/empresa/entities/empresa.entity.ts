@@ -11,8 +11,9 @@ import {
 } from 'typeorm';
 
 export enum Tipo {
-  ADMINISTRADOR = 'A',
-  ORGANIZADOR = 'O',
+  ADMINISTRADOR = 'A', // Pessoal do sistema
+  GERENCIADOR = 'G', // Pessoal das prefeituras
+  ORGANIZADOR = 'O', // Pessoal que quer publicar evento
 }
 
 @Entity({ name: 'empresa' })

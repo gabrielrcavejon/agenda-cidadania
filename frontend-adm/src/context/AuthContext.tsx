@@ -6,6 +6,7 @@ import { useLogin, Token as TokenBackend } from "../hooks/useLogin";
 import api from "../services/api";
 import { Response } from "../hooks/useResponse";
 import { Token } from "./models/Token";
+import { TipoEmpresa } from "../hooks/useEmpresa";
 
 type Auth = {
 	login: (email: string, password: string) => Promise<void>;
@@ -37,12 +38,22 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 			const responseGetMe: Response<Usuario> = await getMe();
 
+			if (
+				!responseGetMe ||
+				!responseGetMe.data ||
+				!responseGetMe.data.empresa ||
+				!responseGetMe.data.empresa.tipo ||
+				responseGetMe.data.empresa.tipo != TipoEmpresa.ADMINISTRADOR
+			) {
+				setUsuario(null);
+				localStorage.removeItem("token");
+				return;
+			}
+
 			if (responseGetMe.statusCode != HttpStatusCode.Ok) {
 				setUsuario(null); // Seta para null, para poder verificar se ta logado ou nao
 				return;
 			}
-
-			console.log(responseGetMe.data);
 
 			setUsuario(responseGetMe.data);
 
@@ -62,8 +73,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			email,
 			password
 		);
-
-		console.log(responseToken);
 
 		if (responseToken.statusCode != HttpStatusCode.Ok) {
 			setUsuario(null);

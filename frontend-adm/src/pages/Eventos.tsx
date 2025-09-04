@@ -11,6 +11,8 @@ const Eventos = () => {
 		(async () => {
 			const res = await getEventos();
 
+			console.log(res);
+
 			setEventos(res.data as Evento[]);
 		})();
 	}, []);
@@ -25,7 +27,8 @@ const Eventos = () => {
 						<div className="card h-100 border-0 shadow-sm position-relative">
 							<div className="card-body pb-5">
 								<h5 className="fw-bold text-dark mb-2">
-									{evento.idEvento} - {evento.nome}
+									{evento.empresa.fantasia}: Evento {evento.idEvento} -{" "}
+									{evento.nome}
 								</h5>
 
 								<p className="text-muted mb-1" style={{ fontSize: "0.9rem" }}>
